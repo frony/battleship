@@ -2,33 +2,30 @@ import { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 import { Spot } from './Spot';
+import { ShipPanel } from './ShipsPanel';
 
 const REPEAT = 10;
-const HITS_TO_WIN = 17
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  border: #000000 1px solid;
-  margin: 20px;
-  min-height: 250px;
-`;
+const HITS_TO_WIN = 17;
 
 const GridContainer = styled.div`
   display: flex;
   flex-direction: row;
-  //width: 300px;
-  border: 1px solid #282c34;
-  //margin: 20px;
-  //min-height: 250px;
+  //border: 1px solid #282c34;
 `;
 
-const Panel = styled.div`
+const SidePanel = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
+const GridPanel = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
   min-height: 220px;
-  border: red 1px solid;
+  //border: red 1px solid;
   align-items: baseline;
   width: 100%;
 `;
@@ -37,8 +34,8 @@ const Wrapper = styled.div`
   display: block;
   width: 100%;
   margin: auto;
-  border: blue 2px solid;
-  width: 600px;
+  //border: blue 2px solid;
+  //width: 600px;
 `;
 
 const RowContainer = styled.div`
@@ -50,36 +47,7 @@ const SquareEmpty = styled.div`
   min-width: 50px;
   min-height: 50px;
   text-align: center;
-  //vertical-align: text-top;
 `;
-
-const ships = [
-  {
-    class: 'Carrier',
-    size: 5,
-    quantity: 1
-  },
-  {
-    class: 'Battleship',
-    size: 4,
-    quantity: 1
-  },
-  {
-    class: 'Cruiser',
-    size: 3,
-    quantity: 1
-  },
-  {
-    class: 'Destroyer',
-    size: 2,
-    quantity: 2
-  },
-  {
-    class: 'Submarine',
-    size: 1,
-    quantity: 2
-  }
-];
 
 const shipsPositions = [
   'A,1', 'A,2', 'A,3', 'A,4', 'A,5',
@@ -108,7 +76,7 @@ export const Battleship = () => {
   }
 
   const getSquareFromGrid = position => {
-    const objIndex = grid.findIndex(( obj => obj.position == position ));
+    const objIndex = grid.findIndex(( obj => obj.position === position ));
     return grid[objIndex];
   };
 
@@ -137,36 +105,44 @@ export const Battleship = () => {
 
   return (
     <>
-      <Panel>
-        <Wrapper>
-          <h1>Battleship</h1>
+      <GridContainer>
+        <SidePanel>
+          <ShipPanel />
+        </SidePanel>
 
-          {/* Row at the top with column numbers*/ }
-          <RowContainer>
-            <SquareEmpty/>
-            { colsArray.map((colHeader, colIndex) => {
-              return <SquareEmpty key={ colIndex }>{ colHeader }</SquareEmpty>
-            }) }
-          </RowContainer>
-
-          { rowsArray.map((rowNumber, index) => {
-            const letter = String.fromCharCode(Number(rowNumber));
-            return <RowContainer key={ index }>
-              {/* Row header letter */ }
-              <SquareEmpty key={ letter }>{ letter }</SquareEmpty>
-              { colsArray.map((row, i) => {
-                const position = `${ letter },${ i + 1 }`;
-                return <Spot
-                  getSquareFromGrid={ getSquareFromGrid }
-                  key={ i }
-                  position={ position }
-                  increaseHits={ increaseHits }
-                />
+        <GridPanel>
+          <Wrapper>
+            <h1>Battleship</h1>
+            {/* Row at the top with column numbers*/ }
+            <RowContainer>
+              <SquareEmpty/>
+              { colsArray.map((colHeader, colIndex) => {
+                return <SquareEmpty key={ colIndex }>{ colHeader }</SquareEmpty>
               }) }
             </RowContainer>
-          }) }
-        </Wrapper>
-      </Panel>
+
+            {/* Rows */}
+            { rowsArray.map((rowNumber, index) => {
+              const letter = String.fromCharCode(Number(rowNumber));
+              return <RowContainer key={ index }>
+                {/* Row letter */ }
+                <SquareEmpty key={ letter }>{ letter }</SquareEmpty>
+
+                {/* Columns of squares */}
+                { colsArray.map((row, i) => {
+                  const position = `${ letter },${ i + 1 }`;
+                  return <Spot
+                    getSquareFromGrid={ getSquareFromGrid }
+                    key={ i }
+                    position={ position }
+                    increaseHits={ increaseHits }
+                  />
+                }) }
+              </RowContainer>
+            }) }
+          </Wrapper>
+        </GridPanel>
+      </GridContainer>
     </>
   );
 };
