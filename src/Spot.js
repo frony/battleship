@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const Square = styled.div`
@@ -6,7 +6,6 @@ const Square = styled.div`
   min-height: 50px;
   border: 1px solid #61dafb;
   text-align: center;
-  //vertical-align: text-top;
 `;
 
 const SquareHit = styled.div`
@@ -15,25 +14,29 @@ const SquareHit = styled.div`
   height: 100%;
 `;
 
-export const Spot = ({ position, getSquareFromGrid, updateGrid }) => {
-  const [ isClicked, setIsClicked ] = useState(false);
-  const [isHit, setIsHit] = useState(false);
+const Wrapper = styled.div`
+  display: block;
+  width: 100%;
+  margin: auto;
+`;
+
+export const Spot = ({ position, getSquareFromGrid, increaseHits }) => {
+  const [ missed, setMissed ] = useState(false);
+  const [ hit, setHit ] = useState(false);
 
   const fireTorpedo = () => {
     const square = getSquareFromGrid(position);
-    console.log('position', position);
-    console.log('square', square);
     const { status } = square;
-    console.log('status', status);
     if (status !== 0) {
-      setIsHit(true);
+      setHit(true);
+      increaseHits();
     } else {
-      setIsClicked(true);
+      setMissed(true);
     }
   }
 
   return <Square onClick={ () => fireTorpedo(position) }>
-    { isHit && <SquareHit />}
-    { isClicked && 'X' }
+    { hit && <SquareHit/> }
+    { missed && <Wrapper><p>{ 'X' }</p></Wrapper> }
   </Square>
 };

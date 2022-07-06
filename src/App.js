@@ -1,4 +1,3 @@
-import './Battleship.css';
 import { Battleship } from './Battleship';
 
 function App() {
