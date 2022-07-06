@@ -10,7 +10,6 @@ const HITS_TO_WIN = 17;
 const GridContainer = styled.div`
   display: flex;
   flex-direction: row;
-  //border: 1px solid #282c34;
 `;
 
 const SidePanel = styled.div`
@@ -25,7 +24,6 @@ const GridPanel = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 220px;
-  //border: red 1px solid;
   align-items: baseline;
   width: 100%;
 `;
@@ -34,8 +32,6 @@ const Wrapper = styled.div`
   display: block;
   width: 100%;
   margin: auto;
-  //border: blue 2px solid;
-  //width: 600px;
 `;
 
 const RowContainer = styled.div`
@@ -49,7 +45,7 @@ const SquareEmpty = styled.div`
   text-align: center;
 `;
 
-const shipsPositions = [
+/*const shipsPositions = [
   'A,1', 'A,2', 'A,3', 'A,4', 'A,5',
   'E,8', 'F,8', 'G,8', 'H,8',
   'G,3', 'G,4', 'G,5',
@@ -57,7 +53,17 @@ const shipsPositions = [
   'J,7', 'J,8',
   'E,2',
   'I,6'
-]
+];*/
+
+const shipsPositions = [
+  'H,6','H,7','H,8','H,9','H,10',
+  'B,3','C,3','D,3','E,3',
+  'A,10','B,10','C,10',
+  'J,1', 'J,2',
+  'J,9', 'J,10',
+  'D,7',
+  'G,1'
+];
 
 export const Battleship = () => {
   const [ hits, setHits ] = useState(0);
